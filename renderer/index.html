@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; script-src 'self'" />
+  <title>IO Battery</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Заряд устройств</h1>
+    <div class="actions">
+      <button id="btnRefresh" title="Обновить" aria-label="Обновить">⟳</button>
+      <button id="btnSettings" title="Настройки" aria-label="Настройки">⚙</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="list" aria-live="polite"></section>
+
+    <section id="empty" hidden>
+      <p><b>Устройства не найдены</b></p>
+      <p class="muted">Проверьте, что приёмник подключён, а устройство включено. Если приложение
+        запущено впервые, нажмите «Добавить вручную» и выберите приёмник.</p>
+      <button id="btnPick" class="primary">Добавить вручную</button>
+    </section>
+
+    <section id="settings" hidden>
+      <h2>Настройки</h2>
+      <label class="field">Опрос устройств
+        <select id="setInterval">
+          <option value="60">раз в минуту</option>
+          <option value="120">раз в 2 минуты</option>
+          <option value="300">раз в 5 минут</option>
+          <option value="600">раз в 10 минут</option>
+        </select>
+      </label>
+      <label class="field">Предупреждать при заряде ниже
+        <span><input id="setThreshold" type="number" min="5" max="50" step="5" /> %</span>
+      </label>
+      <label class="check"><input id="setNotify" type="checkbox" /> Показывать уведомление о низком заряде</label>
+      <label class="check" id="rowMaterial" hidden><input id="setMaterial" type="checkbox" /> Прозрачность окна (эффект Windows 11)</label>
+      <label class="check"><input id="setAutostart" type="checkbox" /> Запускать вместе с Windows</label>
+      <label class="check"><input id="setDebug" type="checkbox" /> Показывать журнал обмена (для диагностики)</label>
+      <div id="debugBox" hidden>
+        <pre id="log"></pre>
+        <button id="btnCopyLog">Скопировать журнал</button>
+      </div>
+      <div class="row-btns">
+        <button id="btnPick2">Добавить устройство вручную</button>
+        <button id="btnQuit" class="danger">Выйти из приложения</button>
+      </div>
+    </section>
+  </main>
+
+  <footer><span id="status">—</span></footer>
+
+  <script src="protocols.js"></script>
+  <script src="hid.js"></script>
+  <script src="trayicon.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

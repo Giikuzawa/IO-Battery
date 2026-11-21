@@ -1,0 +1,70 @@
+:root {
+  --bg: #14171c; --panel: #1c2027; --line: #2b313b; --fg: #eef1f5; --muted: #98a2b1;
+  --ok: #4ade80; --warn: #fbbf24; --bad: #f87171; --accent: #7cc4ff;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root { --bg: #f4f6f9; --panel: #ffffff; --line: #dde2ea; --fg: #1a1f27; --muted: #5d6877;
+          --ok: #1a9d4d; --warn: #b7791f; --bad: #d03b3b; --accent: #1f6fd1; color-scheme: light; }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--fg);
+  font: 14px/1.35 "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif; user-select: none; }
+body { display: flex; flex-direction: column; border: 1px solid var(--line); }
+header { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px 8px; }
+h1 { font-size: 15px; font-weight: 600; margin: 0; }
+h2 { font-size: 13px; margin: 4px 0 10px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+.actions { display: flex; gap: 4px; }
+button { font: inherit; color: var(--fg); background: var(--panel); border: 1px solid var(--line);
+  border-radius: 8px; padding: 6px 10px; cursor: pointer; }
+button:hover { border-color: var(--accent); }
+.actions button { width: 32px; height: 32px; padding: 0; font-size: 16px; }
+button.primary { background: var(--accent); color: #0b1220; border-color: transparent; font-weight: 600; }
+button.danger { color: var(--bad); }
+button.spin { animation: spin 0.9s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+main { flex: 1; padding: 0 12px 6px; overflow: auto; }
+#list { display: flex; flex-direction: column; gap: 8px; }
+.row { display: grid; grid-template-columns: 34px 1fr auto; gap: 10px; align-items: center;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+.row.stale { opacity: .62; }
+.ico { font-size: 22px; text-align: center; }
+.name { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sub { font-size: 12px; color: var(--muted); margin-top: 1px; min-height: 16px; }
+.bar { height: 5px; border-radius: 3px; background: var(--line); margin-top: 6px; overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--ok); border-radius: 3px; transition: width .3s; }
+.row.mid .bar i { background: var(--warn); }
+.row.low .bar i { background: var(--bad); }
+.pct { font-size: 20px; font-weight: 600; text-align: right; min-width: 64px; }
+.pct small { font-size: 13px; font-weight: 500; color: var(--muted); }
+.pct .bolt { color: var(--warn); margin-left: 2px; }
+.row.low .pct { color: var(--bad); }
+.muted { color: var(--muted); }
+#empty { text-align: center; padding: 22px 10px 12px; }
+#settings { padding: 4px 4px 10px; }
+.field { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin: 8px 0; }
+.field select, .field input[type=number] { background: var(--panel); color: var(--fg); border: 1px solid var(--line);
+  border-radius: 6px; padding: 4px 6px; font: inherit; }
+.field input[type=number] { width: 64px; }
+.check { display: flex; align-items: center; gap: 8px; margin: 8px 0; }
+.row-btns { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+#log { height: 150px; overflow: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+  padding: 8px; font: 11px/1.35 Consolas, monospace; white-space: pre-wrap; user-select: text; margin: 8px 0; }
+footer { padding: 6px 14px 10px; color: var(--muted); font-size: 12px; }
+[hidden] { display: none !important; }
+
+/* Системный материал окна (Acrylic): фон рисует Windows, карточки делаем полупрозрачными */
+html.material, html.material body { background: transparent; }
+html.material body { border-color: transparent; }
+html.material .row { background: rgba(255, 255, 255, 0.07); border-color: rgba(255, 255, 255, 0.09); }
+html.material #log { background: rgba(0, 0, 0, 0.25); }
+html.material button, html.material .field select, html.material .field input[type=number] {
+  background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.12); }
+html.material .bar { background: rgba(255, 255, 255, 0.14); }
+@media (prefers-color-scheme: light) {
+  html.material .row { background: rgba(255, 255, 255, 0.6); border-color: rgba(0, 0, 0, 0.06); }
+  html.material #log { background: rgba(255, 255, 255, 0.5); }
+  html.material button, html.material .field select, html.material .field input[type=number] {
+    background: rgba(255, 255, 255, 0.6); border-color: rgba(0, 0, 0, 0.1); }
+  html.material .bar { background: rgba(0, 0, 0, 0.1); }
+}

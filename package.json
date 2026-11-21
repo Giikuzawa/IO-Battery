@@ -1,0 +1,33 @@
+{
+  "name": "io-battery-tray",
+  "version": "0.1.0",
+  "description": "Заряд мыши, клавиатуры и наушников в трее Windows (IO / Red Square, Bluetooth)",
+  "main": "main.js",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "test": "node tests/test.js && node tests/bt.test.js",
+    "dist": "electron-builder --win portable nsis"
+  },
+  "build": {
+    "appId": "io.battery.tray",
+    "productName": "IO Battery",
+    "files": [
+      "main.js",
+      "preload.js",
+      "bt-scripts.js",
+      "renderer/**/*"
+    ],
+    "win": {
+      "target": [
+        "portable",
+        "nsis"
+      ]
+    }
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.0.0"
+  }
+}
