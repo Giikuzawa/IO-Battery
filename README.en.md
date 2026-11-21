@@ -175,6 +175,28 @@ PWSH=/path/to/pwsh npm test       # plus PowerShell script checks against mock c
 - `tests/bt.test.js` runs the Bluetooth PowerShell scripts against mock `Get-CimInstance` and `Get-PnpDeviceProperty` (needs PowerShell 7; real Windows and PowerShell 5.1 are not covered).
 - `scripts/smoke.js` and `scripts/smoke-bt.js` launch real Electron under a virtual display (`xvfb`), replace `navigator.hid` with mock devices and take screenshots. Bluetooth mocking for development: the `IOBAT_FAKE_BT` and `IOBAT_FAKE_BT_SEQ` environment variables.
 
+### Building a release on Windows
+
+```bash
+npm install
+npm run dist
+```
+
+The output appears in `dist/`:
+
+| File | What it is |
+|---|---|
+| `IO Battery 0.1.0.exe` | portable: a single file that unpacks to a temp folder on every start (slightly slower start-up) |
+| `IO Battery Setup 0.1.0.exe` | installer (NSIS, per-user, no admin rights) |
+| `win-unpacked/` | a plain app folder, like the portable archive below |
+
+Build just one format with `npx electron-builder --win portable`, `--win nsis` or `--win dir`.
+
+- **Icon:** put `build/icon.ico` (256×256) in place and `electron-builder` picks it up.
+- **Symbolic link error** while downloading `winCodeSign`: enable Windows Developer Mode or run the terminal as administrator. If you do not need the exe icon and metadata you can skip that step with `-c.win.signAndEditExecutable=false`.
+- Code signing is not configured; without it SmartScreen will warn.
+- Building from Linux was verified only for `win-unpacked` and portable (with `signAndEditExecutable=false`); NSIS on Linux needs Wine.
+
 ### How the portable archive is built
 
 On Windows just run `npm run dist`. From Linux the archive is assembled by hand: take the official Windows Electron build (`electron-v*-win32-x64.zip`), rename `electron.exe`, put the app into `resources/app` and delete `default_app.asar`.

@@ -13,6 +13,9 @@ app.setAppUserModelId('io.battery.tray');
 
 const WIDTH = 380;
 const SOLID_BG = '#14171c';
+// Для portable-сборки electron-builder process.execPath указывает на временную распаковку,
+// настоящий путь к файлу лежит в PORTABLE_EXECUTABLE_FILE
+const AUTOSTART_EXE = process.env.PORTABLE_EXECUTABLE_FILE || process.execPath;
 
 // Системный материал окна (Acrylic) доступен на Windows 11 22H2 и новее (сборка 22621+)
 const materialSupported =
@@ -253,10 +256,10 @@ function setupIpc() {
   ipcMain.handle('material:get', () => ({ supported: materialSupported, enabled: materialOn }));
   ipcMain.handle('material:set', (_e, on) => applyMaterial(on));
 
-  ipcMain.handle('autostart:get', () => app.getLoginItemSettings().openAtLogin);
+  ipcMain.handle('autostart:get', () => app.getLoginItemSettings({ path: AUTOSTART_EXE }).openAtLogin);
   ipcMain.handle('autostart:set', (_e, on) => {
-    app.setLoginItemSettings({ openAtLogin: !!on, path: process.execPath });
-    return app.getLoginItemSettings().openAtLogin;
+    app.setLoginItemSettings({ openAtLogin: !!on, path: AUTOSTART_EXE });
+    return app.getLoginItemSettings({ path: AUTOSTART_EXE }).openAtLogin;
   });
 
   ipcMain.on('clipboard:write', (_e, text) => clipboard.writeText(String(text)));

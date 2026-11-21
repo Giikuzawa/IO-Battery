@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Заряд мыши, клавиатуры и наушников в трее Windows (IO / Red Square, Bluetooth)",
   "main": "main.js",
-  "author": "",
+  "author": "IO Battery contributors",
   "license": "MIT",
   "scripts": {
     "start": "electron .",
@@ -27,7 +27,7 @@
     }
   },
   "devDependencies": {
-    "electron": "^33.0.0",
-    "electron-builder": "^25.0.0"
+    "electron": "45.3.3",
+    "electron-builder": "^26.0.0"
   }
 }
